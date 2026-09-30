@@ -53,7 +53,7 @@ GitHub --> DB : Knowledge base
 ```
 <img width="1073" height="839" alt="image" src="https://github.com/user-attachments/assets/e6ef33c3-b1d4-4ecf-856f-941daba9a7bc" />
 Mermaid UML
-```
+``` 
 flowchart LR
 
     Client["External System / SIEM"]
@@ -94,6 +94,8 @@ flowchart LR
 
     GitHub -->|"Knowledge base"| DB
 ```
+<img width="4502" height="1155" alt="image" src="https://github.com/user-attachments/assets/6397d3ee-3e3a-4628-954b-ba8411382a97" />
+
 
 
 
