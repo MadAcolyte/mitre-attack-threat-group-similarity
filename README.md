@@ -2,7 +2,7 @@
 
 ## UMLs
 
-### PlantUML
+### PlantUML Component diagram
 
 ```plantuml
 @startuml
@@ -100,4 +100,74 @@ flowchart LR
     API -->|"JSON response"| Client
 
     GitHub -->|"Knowledge base"| DB
+```
+### PlantUML Sequence diagram
+```
+@startuml
+actor "External System / SIEM" as Client
+
+participant "REST API\n/analyze" as API
+participant "Query Processor" as Query
+participant "RAG Retriever" as RAG
+database "Vector Index" as Index
+database "Threat Intelligence\nKnowledge Base" as DB
+participant "Gemini API" as Gemini
+participant "Result Generator" as Result
+
+Client -> API : POST /analyze\nMITRE technique IDs
+API -> Query : Validate & process techniques
+Query --> API : Validated techniques
+
+API -> RAG : User query
+RAG -> Index : Retrieve similar historical incidents
+Index --> RAG : Relevant incident IDs
+
+RAG -> DB : Get incident details
+DB --> RAG : Group + techniques + description
+
+RAG -> Gemini : Query + retrieved incidents
+Gemini -> Gemini : Analyze evidence
+Gemini -> Gemini : Identify top 3 groups
+Gemini -> Gemini : Generate evidence + reasoning
+Gemini --> Result : Analysis result
+
+Result --> API : Structured result
+API --> Client : JSON response
+
+@enduml
+```
+<img width="1406" height="686" alt="image" src="https://github.com/user-attachments/assets/2eb945cb-cd8a-4a2b-815b-e34245f0f723" />
+
+### Mermaid UML
+
+```mermaid
+sequenceDiagram
+    actor Client as External System / SIEM
+    participant API as REST API /analyze
+    participant Query as Query Processor
+    participant RAG as RAG Retriever
+    participant Index as Vector Index
+    participant DB as Threat Intelligence Knowledge Base
+    participant Gemini as Gemini API
+    participant Result as Result Generator
+
+    Client->>API: POST /analyze<br/>MITRE technique IDs
+    API->>Query: Validate & process techniques
+    Query-->>API: Validated techniques
+
+    API->>RAG: User query
+    RAG->>Index: Retrieve similar historical incidents
+    Index-->>RAG: Relevant incident IDs
+
+    RAG->>DB: Get incident details
+    DB-->>RAG: Group + techniques + description
+
+    RAG->>Gemini: Query + retrieved incidents
+    Gemini->>Gemini: Analyze evidence
+    Gemini->>Gemini: Identify top 3 groups
+    Gemini->>Gemini: Generate evidence + reasoning
+    Gemini-->>Result: Analysis result
+
+    Result-->>API: Structured result
+    API-->>Client: JSON response
 ```
