@@ -1,25 +1,112 @@
 [
   {
-    "X": [
-      "T1059.001",
-      "T1071.001",
-      "T1105"
-    ],
-    "y": "APT28"
+    "X": {
+      "techniques": [
+        "T1059.001",
+        "T1071.001",
+        "T1105"
+      ]
+    },
+    "y": {
+      "groups": [
+        {
+          "name": "APT28",
+          "match_percentage": 87,
+          "matching_techniques": [
+            "T1059.001",
+            "T1071.001",
+            "T1105"
+          ],
+          "similar_incidents": [
+            {
+              "incident_id": "INC-001",
+              "missing_techniques": [
+                "T1566.001"
+              ],
+              "description": "The incident involved PowerShell execution, application-layer protocol communication and downloading additional tools."
+            }
+          ],
+          "reasoning": "The observed techniques closely match the techniques present in the retrieved historical APT28 incident."
+        }
+      ]
+    }
   },
   {
-    "X": [
-      "T1059.001",
-      "T1566.001",
-      "T1071.001"
-    ],
-    "y": "APT29"
+    "X": {
+      "techniques": [
+        "T1059.001",
+        "T1566.001",
+        "T1071.001"
+      ]
+    },
+    "y": {
+      "groups": [
+        {
+          "name": "APT29",
+          "match_percentage": 82,
+          "matching_techniques": [
+            "T1059.001",
+            "T1566.001",
+            "T1071.001"
+          ],
+          "similar_incidents": [
+            {
+              "incident_id": "INC-004",
+              "missing_techniques": [
+                "T1105"
+              ],
+              "description": "The activity involved spearphishing attachment delivery followed by PowerShell execution and HTTP-based command and control."
+            }
+          ],
+          "reasoning": "The observed techniques closely match the techniques found in the retrieved historical APT29 incident."
+        }
+      ]
+    }
   },
   {
-    "X": [
-      "T1547.001",
-      "T1053.005"
-    ],
-    "y": "APT28"
+    "X": {
+      "techniques": [
+        "T1547.001",
+        "T1053.005"
+      ]
+    },
+    "y": {
+      "groups": [
+        {
+          "name": "APT28",
+          "match_percentage": 54,
+          "matching_techniques": [
+            "T1547.001"
+          ],
+          "similar_incidents": [
+            {
+              "incident_id": "INC-007",
+              "missing_techniques": [
+                "T1053.005"
+              ],
+              "description": "The incident included persistence through Windows Registry Run Keys / Startup Folder."
+            }
+          ],
+          "reasoning": "Only one of the observed techniques was found in the retrieved APT28 evidence. The available historical evidence is therefore insufficient for a strong attribution."
+        },
+        {
+          "name": "APT29",
+          "match_percentage": 49,
+          "matching_techniques": [
+            "T1053.005"
+          ],
+          "similar_incidents": [
+            {
+              "incident_id": "INC-008",
+              "missing_techniques": [
+                "T1547.001"
+              ],
+              "description": "The activity used scheduled tasks to achieve persistence and execute malicious processes."
+            }
+          ],
+          "reasoning": "Only one of the observed techniques was found in the retrieved APT29 evidence. The available historical evidence is insufficient for a strong attribution."
+        }
+      ]
+    }
   }
 ]
