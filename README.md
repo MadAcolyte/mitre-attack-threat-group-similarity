@@ -1,8 +1,10 @@
 # mitre-attack-threat-group-similarity
 
-##UMLs
-#PlantUML
-```
+## UMLs
+
+### PlantUML
+
+```plantuml
 @startuml
 actor "External System / SIEM" as Client
 
@@ -51,10 +53,14 @@ API --> Client : JSON response
 GitHub --> DB : Knowledge base
 @enduml
 ```
-<img width="1073" height="839" alt="image" src="https://github.com/user-attachments/assets/e6ef33c3-b1d4-4ecf-856f-941daba9a7bc" />
 
-#Mermaid UML
-```
+![image](https://private-user-images.githubusercontent.com/125881377/662413614-e6ef33c3-b1d4-4ecf-856f-941daba9a7bc.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3OTA3OTE1MjYsIm5iZiI6MTc5MDc5MTIyNiwicGF0aCI6Ii8xMjU4ODEzNzcvNjYyNDEzNjE0LWU2ZWYzM2MzLWIxZDQtNGVjZi04NTZmLTk0MWRhYmE5YTdiYy5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwOTMwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDkzMFQxODAwMjZaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1mNjI5ODk3NzkwZjM0Y2MyMjNhZGRmYzNmNTU4MjQ4Zjk3Y2IyNmJmMjg3ZjZiNTA2YzBjZGE0OGU2NDZmYzRkJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZwbmcifQ.U67ZIc4j2yC2aBqEc95EMzG9ar6NVp36UKXKSRtcjb8)
+
+---
+
+### Mermaid UML
+
+```mermaid
 flowchart LR
 
     Client["External System / SIEM"]
@@ -96,8 +102,4 @@ flowchart LR
     GitHub -->|"Knowledge base"| DB
 ```
 
-<img width="4502" height="1155" alt="image" src="https://github.com/user-attachments/assets/6397d3ee-3e3a-4628-954b-ba8411382a97" />
-
-
-
-
+![image](https://private-user-images.githubusercontent.com/125881377/662415244-6397d3ee-3e3a-4628-954b-ba8411382a97.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3OTA3OTE1MjYsIm5iZiI6MTc5MDc5MTIyNiwicGF0aCI6Ii8xMjU4ODEzNzcvNjYyNDE1MjQ0LTYzOTdkM2VlLTNlM2EtNDYyOC05NTRiLWJhODQxMTM4MmE5Ny5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwOTMwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDkzMFQxODAwMjZaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1lZDBmMjBmNmRmOGJiNGRlNDI5ZWJlZWY4ZGY1MzEzZmEyZGFlMzk5MmIzZGQ1MDUxZDJhZmI2MWNkMDUxMWI5JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZwbmcifQ.FkBPML3gfOb5Kh9YCIGh8yCWotuINGUW2bAW8MnJjiA)
