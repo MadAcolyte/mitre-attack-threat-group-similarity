@@ -1,0 +1,77 @@
+[
+  {
+    "incident_id": "INC-001",
+    "group": "APT28",
+    "techniques": [
+      "T1059.001",
+      "T1071.001",
+      "T1105"
+    ],
+    "description": "The incident involved PowerShell execution, application-layer protocol communication and downloading additional tools to the compromised system."
+  },
+  {
+    "incident_id": "INC-002",
+    "group": "APT28",
+    "techniques": [
+      "T1059.001",
+      "T1105",
+      "T1547.001"
+    ],
+    "description": "The activity included PowerShell execution, downloading additional tools and establishing persistence through Windows Registry Run Keys or Startup Folder."
+  },
+  {
+    "incident_id": "INC-003",
+    "group": "APT28",
+    "techniques": [
+      "T1071.001",
+      "T1547.001"
+    ],
+    "description": "The observed activity used HTTP-based application-layer communication and Windows Registry Run Keys or Startup Folder for persistence."
+  },
+  {
+    "incident_id": "INC-004",
+    "group": "APT29",
+    "techniques": [
+      "T1059.001",
+      "T1566.001",
+      "T1071.001"
+    ],
+    "description": "The activity involved spearphishing attachment delivery followed by PowerShell execution and HTTP-based command and control."
+  },
+  {
+    "incident_id": "INC-005",
+    "group": "APT29",
+    "techniques": [
+      "T1566.001",
+      "T1059.001",
+      "T1105"
+    ],
+    "description": "The incident involved spearphishing attachments, PowerShell execution and downloading additional files or tools after initial access."
+  },
+  {
+    "incident_id": "INC-006",
+    "group": "APT29",
+    "techniques": [
+      "T1053.005",
+      "T1071.001",
+      "T1105"
+    ],
+    "description": "The activity used scheduled tasks for execution, HTTP-based communication and downloading additional tools."
+  },
+  {
+    "incident_id": "INC-007",
+    "group": "APT28",
+    "techniques": [
+      "T1547.001"
+    ],
+    "description": "The activity included establishing persistence through Windows Registry Run Keys or Startup Folder."
+  },
+  {
+    "incident_id": "INC-008",
+    "group": "APT29",
+    "techniques": [
+      "T1053.005"
+    ],
+    "description": "The activity used scheduled tasks to achieve persistence and execute malicious processes."
+  }
+]
