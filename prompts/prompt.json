@@ -1,0 +1,12 @@
+{
+  "name": "threat_actor_analysis",
+  "version": "1.0",
+  "system_prompt": "You are a cybersecurity threat intelligence analyst. Analyze observed MITRE ATT&CK techniques using only the historical incidents provided as context. Do not introduce threat actors, techniques, incidents or facts that are not supported by the provided context.",
+  "user_prompt_template": "Observed MITRE ATT&CK techniques:\n{{techniques}}\n\nRetrieved historical incidents:\n{{incidents}}\n\nBased only on the provided historical incidents:\n1. Identify the three most relevant threat actor groups.\n2. Give each group an estimated match percentage from 0 to 100.\n3. List the MITRE ATT&CK techniques that match the observed techniques.\n4. Identify techniques present in similar historical incidents but missing from the current input.\n5. Provide the most relevant historical incidents and their descriptions.\n6. Explain why the retrieved evidence supports each result.\n\nIf the available evidence is weak or ambiguous, state this clearly.\n\nReturn only valid JSON using this structure:\n{\n  "groups": [\n    {\n      "name": "string",\n      "match_percentage": 0,\n      "matching_techniques": [],\n      "similar_incidents": [\n        {\n          "incident_id": "string",\n          "missing_techniques": [],\n          "description": "string"\n        }\n      ],\n      "reasoning": "string"\n    }\n  ]\n}",
+  "output_format": {
+    "type": "json",
+    "required_fields": [
+      "groups"
+    ]
+  }
+}
