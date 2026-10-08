@@ -1,5 +1,25 @@
 # mitre-attack-threat-group-similarity
 
+## Data
+
+| File | Description |
+| --- | --- |
+| `data/incidents_strict.json` | MITRE ATT&CK-derived incident dataset (662 incidents) |
+| `data/incidents_example.json` | Small example of the same incident shape |
+| `data/examples.json` | Example analysis request/response payloads |
+
+`incidents_strict.json` matches the `incidents_example.json` shape: `incident_id`, `group`, `techniques`, `description`.
+
+## MITRE ATT&CK® copyright
+
+`data/incidents_strict.json` is derived from [MITRE ATT&CK®](https://attack.mitre.org/). Per MITRE's terms of use, the copyright designation ships with this data:
+
+> © 2026 The MITRE Corporation. This work is reproduced and distributed with the permission of The MITRE Corporation.
+
+The MITRE Corporation (MITRE) hereby grants you a non-exclusive, royalty-free license to use ATT&CK® for research, development, and commercial purposes. Any copy you make for such purposes is authorized provided that you reproduce MITRE's copyright designation and this license in any such copy.
+
+See [MITRE ATT&CK Terms of Use](https://attack.mitre.org/resources/legal-and-branding/terms-of-use/) and the [attack-stix-data LICENSE](https://github.com/mitre-attack/attack-stix-data/blob/master/LICENSE.txt).
+
 ## UMLs
 
 ### PlantUML Component diagram
