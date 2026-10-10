@@ -191,3 +191,17 @@ sequenceDiagram
     Result-->>API: Structured result
     API-->>Client: JSON response
 ```
+
+## Colab prototype
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MadAcolyte/mitre-attack-threat-group-similarity/blob/main/notebooks/threat_group_similarity_gemini.ipynb)
+
+[`notebooks/threat_group_similarity_gemini.ipynb`](notebooks/threat_group_similarity_gemini.ipynb) is an end-to-end Google Colab prototype of the architecture above. Each notebook section is one UML component: GitHub knowledge base load, Query Processor, Vector Index, RAG Retriever, Gemini API, Result Generator, and `POST /analyze`.
+
+**How to run:** open the badge, add a Colab Secret named `GEMINI_API_KEY` (🔑 Secrets panel), then Runtime → Run all. Without a key the notebook still runs: Gemini embedding/generation cells are skipped and a TF-IDF/Jaccard fallback produces the same JSON shape as `y` in `data/examples.json`.
+
+To refresh `data/examples.json` from **real** Gemini outputs (this will not write placeholder data), set `GEMINI_API_KEY` and run:
+
+```bash
+python scripts/regenerate_examples.py
+```
