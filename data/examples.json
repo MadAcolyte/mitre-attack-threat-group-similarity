@@ -8,42 +8,25 @@
       ]
     },
     "y": {
-      "top_incident_id": "ATTACK-G0010-R003",
-      "top_group": "Turla",
-      "jaccard": 0.5,
-      "match_percentage": 50.0,
-      "top_incidents": [
+      "groups": [
         {
-          "incident_id": "ATTACK-G0010-R003",
-          "group": "Turla",
-          "jaccard": 0.5,
-          "match_percentage": 50.0,
-          "shared_techniques": [
+          "name": "APT28",
+          "match_percentage": 87,
+          "matching_techniques": [
             "T1059.001",
             "T1071.001",
             "T1105"
-          ]
-        },
-        {
-          "incident_id": "ATTACK-G0050-R004",
-          "group": "APT32",
-          "jaccard": 0.5,
-          "match_percentage": 50.0,
-          "shared_techniques": [
-            "T1071.001",
-            "T1105"
-          ]
-        },
-        {
-          "incident_id": "ATTACK-G0090-R001",
-          "group": "WIRTE",
-          "jaccard": 0.4286,
-          "match_percentage": 42.9,
-          "shared_techniques": [
-            "T1059.001",
-            "T1071.001",
-            "T1105"
-          ]
+          ],
+          "similar_incidents": [
+            {
+              "incident_id": "INC-001",
+              "missing_techniques": [
+                "T1566.001"
+              ],
+              "description": "The incident involved PowerShell execution, application-layer protocol communication and downloading additional tools."
+            }
+          ],
+          "reasoning": "The observed techniques closely match the techniques present in the retrieved historical APT28 incident."
         }
       ]
     }
@@ -57,41 +40,25 @@
       ]
     },
     "y": {
-      "top_incident_id": "ATTACK-G0079-R001",
-      "top_group": "DarkHydrus",
-      "jaccard": 0.5,
-      "match_percentage": 50.0,
-      "top_incidents": [
+      "groups": [
         {
-          "incident_id": "ATTACK-G0079-R001",
-          "group": "DarkHydrus",
-          "jaccard": 0.5,
-          "match_percentage": 50.0,
-          "shared_techniques": [
+          "name": "APT29",
+          "match_percentage": 82,
+          "matching_techniques": [
             "T1059.001",
-            "T1566.001"
-          ]
-        },
-        {
-          "incident_id": "ATTACK-G0100-R003",
-          "group": "Inception",
-          "jaccard": 0.4286,
-          "match_percentage": 42.9,
-          "shared_techniques": [
-            "T1059.001",
-            "T1071.001",
-            "T1566.001"
-          ]
-        },
-        {
-          "incident_id": "ATTACK-G0016-R001",
-          "group": "APT29",
-          "jaccard": 0.4,
-          "match_percentage": 40.0,
-          "shared_techniques": [
-            "T1059.001",
-            "T1566.001"
-          ]
+            "T1566.001",
+            "T1071.001"
+          ],
+          "similar_incidents": [
+            {
+              "incident_id": "INC-004",
+              "missing_techniques": [
+                "T1105"
+              ],
+              "description": "The activity involved spearphishing attachment delivery followed by PowerShell execution and HTTP-based command and control."
+            }
+          ],
+          "reasoning": "The observed techniques closely match the techniques found in the retrieved historical APT29 incident."
         }
       ]
     }
@@ -104,40 +71,40 @@
       ]
     },
     "y": {
-      "top_incident_id": "ATTACK-G0051-R001",
-      "top_group": "FIN10",
-      "jaccard": 0.6667,
-      "match_percentage": 66.7,
-      "top_incidents": [
+      "groups": [
         {
-          "incident_id": "ATTACK-G0051-R001",
-          "group": "FIN10",
-          "jaccard": 0.6667,
-          "match_percentage": 66.7,
-          "shared_techniques": [
-            "T1053.005",
+          "name": "APT28",
+          "match_percentage": 54,
+          "matching_techniques": [
             "T1547.001"
-          ]
+          ],
+          "similar_incidents": [
+            {
+              "incident_id": "INC-007",
+              "missing_techniques": [
+                "T1053.005"
+              ],
+              "description": "The incident included persistence through Windows Registry Run Keys / Startup Folder."
+            }
+          ],
+          "reasoning": "Only one of the observed techniques was found in the retrieved APT28 evidence. The available historical evidence is therefore insufficient for a strong attribution."
         },
         {
-          "incident_id": "ATTACK-G0019-R002",
-          "group": "Naikon",
-          "jaccard": 0.25,
-          "match_percentage": 25.0,
-          "shared_techniques": [
-            "T1053.005",
-            "T1547.001"
-          ]
-        },
-        {
-          "incident_id": "ATTACK-G0046-R001",
-          "group": "FIN7",
-          "jaccard": 0.25,
-          "match_percentage": 25.0,
-          "shared_techniques": [
-            "T1053.005",
-            "T1547.001"
-          ]
+          "name": "APT29",
+          "match_percentage": 49,
+          "matching_techniques": [
+            "T1053.005"
+          ],
+          "similar_incidents": [
+            {
+              "incident_id": "INC-008",
+              "missing_techniques": [
+                "T1547.001"
+              ],
+              "description": "The activity used scheduled tasks to achieve persistence and execute malicious processes."
+            }
+          ],
+          "reasoning": "Only one of the observed techniques was found in the retrieved APT29 evidence. The available historical evidence is insufficient for a strong attribution."
         }
       ]
     }
