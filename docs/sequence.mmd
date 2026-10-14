@@ -1,0 +1,26 @@
+sequenceDiagram
+    actor User
+    participant Notebook
+    participant Jaccard as Jaccard matcher
+    participant Store as Incident store
+    participant Gemini
+    participant Output
+
+    User->>Notebook: technique IDs
+    Notebook->>Jaccard: match(techniques, k)
+    Jaccard->>Store: candidates via inverted index
+    Store-->>Jaccard: technique sets
+    Jaccard-->>Notebook: top-k IDs + Jaccard scores
+
+    Notebook->>Store: lookup IDs
+    Store-->>Notebook: techniques (+ group if needed)
+
+    alt GEMINI_API_KEY present
+        Notebook->>Gemini: input techniques + matches (IDs, scores, shared techniques)
+        Gemini-->>Notebook: short explanation
+    else no key
+        Notebook->>Notebook: template explanation
+    end
+
+    Notebook->>Output: matches + explanation
+    Output-->>User: bar chart, table, JSON

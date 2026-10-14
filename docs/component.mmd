@@ -1,0 +1,17 @@
+flowchart LR
+    User["User"]
+    subgraph NotebookSystem["Notebook"]
+        JM["Jaccard matcher"]
+        Gemini["Gemini"]
+        Out["Output"]
+    end
+    Store[("Incident store")]
+
+    User -->|"MITRE technique IDs"| NotebookSystem
+    JM -->|"inverted index / technique sets"| Store
+    Store -->|"candidate incidents"| JM
+    JM -->|"top-k IDs + Jaccard scores"| Out
+    Store -->|"lookup: techniques (+ group)"| Out
+    Out -->|"IDs, scores, shared techniques"| Gemini
+    Gemini -->|"short explanation"| Out
+    Out -->|"JSON + bar chart"| User
