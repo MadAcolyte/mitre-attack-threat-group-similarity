@@ -2,69 +2,39 @@
   {
     "X": {
       "techniques": [
-        "T1072",
-        "T1078.002",
-        "T1078.004",
-        "T1210",
-        "T1528",
-        "T1530",
-        "T1580",
-        "T1593.003",
-        "T1595.002"
-      ]
-    },
-    "y": {
-      "groups": [
-        {
-          "name": "APT28",
-          "match_percentage": 87,
-          "matching_techniques": [
-            "T1059.001",
-            "T1071.001",
-            "T1105"
-          ],
-          "similar_incidents": [
-            {
-              "incident_id": "INC-001",
-              "missing_techniques": [
-                "T1566.001"
-              ],
-              "description": "The incident involved PowerShell execution, application-layer protocol communication and downloading additional tools."
-            }
-          ],
-          "reasoning": "The observed techniques closely match the techniques present in the retrieved historical APT28 incident."
-        }
-      ]
-    }
-  },
-  {
-    "X": {
-      "techniques": [
+        "T1027.002",
         "T1059.001",
-        "T1566.001",
-        "T1071.001"
+        "T1059.007",
+        "T1068",
+        "T1074.002",
+        "T1090",
+        "T1113",
+        "T1659"
       ]
     },
     "y": {
       "groups": [
         {
-          "name": "APT29",
-          "match_percentage": 82,
+          "name": "MoustachedBouncer",
+          "match_percentage": 100,
           "matching_techniques": [
+            "T1027.002",
             "T1059.001",
-            "T1566.001",
-            "T1071.001"
+            "T1059.007",
+            "T1068",
+            "T1074.002",
+            "T1090",
+            "T1113",
+            "T1659"
           ],
           "similar_incidents": [
             {
-              "incident_id": "INC-004",
-              "missing_techniques": [
-                "T1105"
-              ],
-              "description": "The activity involved spearphishing attachment delivery followed by PowerShell execution and HTTP-based command and control."
+              "incident_id": "ATTACK-G1019-R001",
+              "missing_techniques": [],
+              "description": "MoustachedBouncer activity reported in \"MoustachedBouncer: Espionage against foreign diplomats in Belarus\" (2023). Observed procedures include: MoustachedBouncer has used plugins to execute PowerShell scripts; MoustachedBouncer has used JavaScript to deliver malware hosted on HTML pages; MoustachedBouncer has used malware plugins packed with Themida; MoustachedBouncer has used plugins to take screenshots on targeted systems."
             }
           ],
-          "reasoning": "The observed techniques closely match the techniques found in the retrieved historical APT29 incident."
+          "reasoning": "All 8 observed techniques appear in a single historical incident, ATTACK-G1019-R001, with no missing techniques in either direction (Jaccard 1.0). The incident describes PowerShell and JavaScript execution via plugins (T1059.001, T1059.007), packed payloads (T1027.002) and screenshot collection (T1113). Other groups share at most a few of these techniques, so the attribution is clear from the evidence."
         }
       ]
     }
@@ -72,45 +42,242 @@
   {
     "X": {
       "techniques": [
-        "T1547.001",
-        "T1053.005"
+        "T1072",
+        "T1584.008",
+        "T1651",
+        "T1665"
       ]
     },
     "y": {
       "groups": [
         {
-          "name": "APT28",
-          "match_percentage": 54,
+          "name": "VOID MANTICORE",
+          "match_percentage": 50,
           "matching_techniques": [
-            "T1547.001"
+            "T1072",
+            "T1651"
           ],
           "similar_incidents": [
             {
-              "incident_id": "INC-007",
+              "incident_id": "ATTACK-G1055-R005",
               "missing_techniques": [
-                "T1053.005"
+                "T1078.004",
+                "T1485"
               ],
-              "description": "The incident included persistence through Windows Registry Run Keys / Startup Folder."
+              "description": "VOID MANTICORE activity reported in \"Iranian Cyber Threat Evolution: From MBR Wipers to Identity Weaponization\" (2026). Observed procedures include: VOID MANTICORE has leveraged legitimate built-in features of cloud-based management platforms to include mobile device management (MDM) and Remote Monitoring and Management (RMM) solutions; VOID MANTICORE has abused built-in remote wipe or factory reset commands to wipe devices managed within an organization's Cloud management solution impacting laptops, servers, and mobile devices; VOID MANTICORE has leveraged privileged cloud accounts to access cloud-based management consoles to include Microsoft Intune; VOID MANTICORE has conducted data wiping attacks on compromised systems."
             }
           ],
-          "reasoning": "Only one of the observed techniques was found in the retrieved APT28 evidence. The available historical evidence is therefore insufficient for a strong attribution."
+          "reasoning": "Overlap is tied at 2 of 4 techniques for three groups, so overlap alone cannot decide. VOID MANTICORE ranks first because both matched techniques (T1072, T1651) co-occur in one incident, ATTACK-G1055-R005, which describes one coherent behaviour: abusing cloud management platforms to push commands to managed devices. T1584.008 and T1665 are not observed for this group."
         },
         {
           "name": "APT29",
-          "match_percentage": 49,
+          "match_percentage": 50,
           "matching_techniques": [
-            "T1053.005"
+            "T1651",
+            "T1665"
           ],
           "similar_incidents": [
             {
-              "incident_id": "INC-008",
+              "incident_id": "ATTACK-G0016-R006",
               "missing_techniques": [
-                "T1547.001"
+                "T1087.004",
+                "T1090.003",
+                "T1110.003",
+                "T1136.003",
+                "T1199"
               ],
-              "description": "The activity used scheduled tasks to achieve persistence and execute malicious processes."
+              "description": "APT29 activity reported in \"NOBELIUM targeting delegated administrative privileges to facilitate broader attacks\" (2021). Observed procedures include: APT29 can create new users through Azure AD; APT29 has used Azure Run Command and Azure Admin-on-Behalf-of (AOBO) to execute code on virtual machines; A backdoor used by APT29 created a Tor hidden service to forward traffic from the Tor client to local ports 3389 (RDP), 139 (Netbios), and 445 (SMB) enabling full remote access from outside the network and has also used; APT29 has conducted brute force password spray attacks."
+            },
+            {
+              "incident_id": "ATTACK-G0016-R010",
+              "missing_techniques": [
+                "T1078.003",
+                "T1090.002",
+                "T1098.005",
+                "T1110.003",
+                "T1528",
+                "T1621"
+              ],
+              "description": "APT29 activity reported in \"SVR cyber actors adapt tactics for initial cloud access\" (2024). Observed procedures include: APT29 has used repeated MFA requests to gain access to victim accounts; APT29 uses stolen tokens to access victim accounts, without needing a password; APT29 has enrolled their own devices into compromised cloud tenants, including enrolling a device in MFA to an Azure AD environment following a successful password guessing attack against a dormant account; APT29 has conducted brute force password spray attacks."
             }
           ],
-          "reasoning": "Only one of the observed techniques was found in the retrieved APT29 evidence. The available historical evidence is insufficient for a strong attribution."
+          "reasoning": "APT29 ties at 2 of 4 techniques. T1651 comes from ATTACK-G0016-R006 (Azure Run Command) and T1665 from ATTACK-G0016-R010, so the two matches are split across separate incidents, which is weaker than a single-incident match. Both incidents share a cloud-tenant theme that fits the query, so APT29 ranks second. T1072 and T1584.008 are not observed for this group."
+        },
+        {
+          "name": "ZIRCONIUM",
+          "match_percentage": 50,
+          "matching_techniques": [
+            "T1584.008",
+            "T1665"
+          ],
+          "similar_incidents": [
+            {
+              "incident_id": "ATTACK-G0128-R005",
+              "missing_techniques": [
+                "T1090.003"
+              ],
+              "description": "ZIRCONIUM activity reported in \"IOC Extinction? China-Nexus Cyber Espionage Actors Use ORB Networks to Raise Cost on Defenders\" (2024). Observed procedures include: ZIRCONIUM has utilized an ORB (operational relay box) network – consisting compromised devices such as small office and home office (SOHO) routers, IoT devices, and leased virtual private servers (VPS) – to obfuscate the; ZIRCONIUM has compromised network devices such as small office and home office (SOHO) routers and IoT devices for ORB (operational relay box) Proxy networks; ZIRCONIUM has utilized an ORB (operational relay box) network – consisting compromised devices such as small office and home office (SOHO) routers, IoT devices, and leased virtual private servers (VPS) – to proxy traffic."
+            }
+          ],
+          "reasoning": "ZIRCONIUM also ties at 2 of 4 techniques, both from ATTACK-G0128-R005. Both matches (T1584.008, T1665) are infrastructure-hiding techniques, while the query also contains management-plane techniques (T1072, T1651) that this group is not observed using. It is plausible but explains only half the query's behaviour, so it ranks third."
+        }
+      ]
+    }
+  },
+  {
+    "X": {
+      "techniques": [
+        "T1047",
+        "T1072",
+        "T1078",
+        "T1219",
+        "T1486",
+        "T1489",
+        "T1490",
+        "T1651"
+      ]
+    },
+    "y": {
+      "groups": [
+        {
+          "name": "Sandworm Team",
+          "match_percentage": 87.5,
+          "matching_techniques": [
+            "T1047",
+            "T1072",
+            "T1078",
+            "T1219",
+            "T1486",
+            "T1489",
+            "T1490"
+          ],
+          "similar_incidents": [
+            {
+              "incident_id": "ATTACK-G0034-R010",
+              "missing_techniques": [
+                "T1003.001",
+                "T1003.003",
+                "T1021.002",
+                "T1078.002",
+                "T1106",
+                "T1588.002"
+              ],
+              "description": "Sandworm Team activity reported in \"New \"Prestige\" ransomware impacts organizations in Ukraine and Poland\" (2022). Observed procedures include: Sandworm Team has used stolen credentials to access administrative accounts within the domain; Sandworm Team has used `ntdsutil.exe` to back up the Active Directory database, likely for credential access; Sandworm Team has used the commercially available tool RemoteExec for agentless remote code execution; Sandworm Team uses Prestige to disable and restore file system redirection by using the following functions: `Wow64DisableWow64FsRedirection()` and `Wow64RevertWow64FsRedirection()`."
+            },
+            {
+              "incident_id": "ATTACK-G0034-R005",
+              "missing_techniques": [
+                "T1485",
+                "T1561.002",
+                "T1566.001"
+              ],
+              "description": "Sandworm Team activity reported in \"ICS Alert (IR-ALERT-H-16-056-01) Cyber-Attack Against Ukrainian Critical Infrastructure\" (2016). Observed procedures include: Sandworm Team have used previously acquired legitimate credentials prior to attacks; Sandworm Team has delivered malicious Microsoft Office and ZIP file attachments via spearphishing emails; Sandworm Team has used the BlackEnergy KillDisk component to corrupt the infected system's master boot record; Sandworm Team has used remote administration tools or remote industrial control system client software for execution and to maliciously release electricity breakers."
+            }
+          ],
+          "reasoning": "Sandworm Team and Medusa Group both cover 7 of 8 observed techniques, and neither explains T1651. Sandworm ranks first because ATTACK-G0034-R010 is a compact incident (13 techniques) that already contains 6 of the 8: remote deployment tooling (T1072), WMI (T1047), remote access software (T1219), encryption (T1486), service stop (T1489) and recovery inhibition (T1490). T1078 comes from ATTACK-G0034-R005. This is a small, specific incident, which makes the overlap less likely to be coincidental than a match inside a very large incident. Attribution remains uncertain because the same techniques are common across ransomware operators."
+        },
+        {
+          "name": "Medusa Group",
+          "match_percentage": 87.5,
+          "matching_techniques": [
+            "T1047",
+            "T1072",
+            "T1078",
+            "T1219",
+            "T1486",
+            "T1489",
+            "T1490"
+          ],
+          "similar_incidents": [
+            {
+              "incident_id": "ATTACK-G1051-R004",
+              "missing_techniques": [
+                "T1003.001",
+                "T1016",
+                "T1021.001",
+                "T1027.010",
+                "T1046",
+                "T1059.001",
+                "T1059.003",
+                "T1069.002",
+                "T1070.003",
+                "T1070.004",
+                "T1071.001",
+                "T1082",
+                "T1083",
+                "T1105",
+                "T1112",
+                "T1135",
+                "T1136.002",
+                "T1190",
+                "T1218.014",
+                "T1529",
+                "T1543.003",
+                "T1553.002",
+                "T1567.002",
+                "T1569.002",
+                "T1573.002",
+                "T1585.002",
+                "T1588.002",
+                "T1650",
+                "T1652",
+                "T1657",
+                "T1685",
+                "T1686",
+                "T1690"
+              ],
+              "description": "Medusa Group activity reported in \"AA25-071A #StopRansomware: Medusa Ransomware\" (2025). Observed procedures include: Medusa Group has deleted recovery files such as shadow copies using `vssadmin.exe`; Medusa Group has utilized Windows Management Instrumentation to query system information; Medusa Group has used vulnerable or signed drivers to modify security solutions on victim devices; Medusa Group has terminated services related to backups, security, databases, communication, filesharing and websites."
+            }
+          ],
+          "reasoning": "A single incident, ATTACK-G1051-R004, contains all 7 matched techniques, which is a strong signal. However, it is a very broad advisory-style incident with 40 techniques, so the match is diluted: many unrelated techniques appear alongside the overlap, and the incident would match almost any ransomware-style query. Medusa is therefore ranked just below Sandworm despite the identical coverage."
+        },
+        {
+          "name": "VOID MANTICORE",
+          "match_percentage": 75,
+          "matching_techniques": [
+            "T1047",
+            "T1072",
+            "T1078",
+            "T1486",
+            "T1490",
+            "T1651"
+          ],
+          "similar_incidents": [
+            {
+              "incident_id": "ATTACK-G1055-R005",
+              "missing_techniques": [
+                "T1078.004",
+                "T1485"
+              ],
+              "description": "VOID MANTICORE activity reported in \"Iranian Cyber Threat Evolution: From MBR Wipers to Identity Weaponization\" (2026). Observed procedures include: VOID MANTICORE has leveraged legitimate built-in features of cloud-based management platforms to include mobile device management (MDM) and Remote Monitoring and Management (RMM) solutions; VOID MANTICORE has abused built-in remote wipe or factory reset commands to wipe devices managed within an organization's Cloud management solution impacting laptops, servers, and mobile devices; VOID MANTICORE has leveraged privileged cloud accounts to access cloud-based management consoles to include Microsoft Intune; VOID MANTICORE has conducted data wiping attacks on compromised systems."
+            },
+            {
+              "incident_id": "ATTACK-G1055-R001",
+              "missing_techniques": [
+                "T1003.001",
+                "T1021.001",
+                "T1078.002",
+                "T1087.002",
+                "T1105",
+                "T1110",
+                "T1133",
+                "T1199",
+                "T1219.002",
+                "T1484.001",
+                "T1485",
+                "T1552.002",
+                "T1561.002",
+                "T1572",
+                "T1583.003",
+                "T1583.006",
+                "T1585.001",
+                "T1588.002",
+                "T1686.003"
+              ],
+              "description": "VOID MANTICORE activity reported in \"“Handala Hack” – Unveiling Group's Modus Operandi\" (2026). Observed procedures include: VOID MANTICORE has utilized legitimate disk encryption utilities to increase likelihood of encrypting system drives and reduce system recovery efforts; VOID MANTICORE had utilized Group Policy logon scripts to distribute the malicious payloads to victim devices through the execution of a batch file; VOID MANTICORE has used previously compromised Domain Administrator credentials to maintain persistent access."
+            }
+          ],
+          "reasoning": "VOID MANTICORE is the only group that explains the unusual T1651 (ATTACK-G1055-R005, cloud management command abuse alongside T1072), and ATTACK-G1055-R001 adds WMI, valid accounts, encryption and recovery inhibition. It misses T1219 and T1489, and its evidence is split across two incidents, so it ranks third. The outlier technique T1651 pulls toward this group while the bulk of the query (service stop plus recovery inhibition plus remote tooling) pulls toward Sandworm and Medusa, which is why the case is hard to attribute confidently."
         }
       ]
     }
