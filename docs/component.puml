@@ -1,0 +1,23 @@
+@startuml
+title Threat group similarity — component diagram
+
+actor User
+
+component "Notebook" as NB
+component "Jaccard matcher" as JM
+database "Incident store\n(incidents_strict.json)" as Store
+component "Gemini" as Gemini
+component "Output" as Out
+
+User --> NB : list of MITRE technique IDs
+NB --> JM : match(techniques, k)
+JM --> Store : inverted index lookup
+Store --> JM : candidate incidents + technique sets
+JM --> NB : top-k incident IDs + Jaccard scores
+NB --> Store : lookup IDs
+Store --> NB : technique lists (+ group)
+NB --> Gemini : input techniques +\nIDs, scores, shared techniques
+Gemini --> NB : short explanation
+NB --> Out : matches + explanation
+Out --> User : JSON, table, bar chart
+@enduml
