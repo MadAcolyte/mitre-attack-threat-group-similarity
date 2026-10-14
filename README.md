@@ -36,7 +36,7 @@ rectangle "Threat Actor Analysis API" {
 
     component "RAG Retriever" as RAG
 
-    component "Vector Index" as Index
+    component "Jaccard Index" as Index
 
     component "Gemini API" as Gemini
 
@@ -52,45 +52,40 @@ Client --> API : MITRE technique IDs\n["T1059.001", "T1071.001", "T1105"]
 
 API --> Query : Validate & process\ntechniques
 
-Query --> RAG : User query
+Query --> RAG : Validated technique IDs
 
-RAG --> Index : Retrieve similar\nhistorical incidents
+RAG --> Index : Rank incidents by\nJaccard similarity
 
-Index --> RAG : Relevant incidents
-
-RAG --> DB : Get incident details
-
-DB --> RAG : Group + techniques +\ndescription
+Index --> RAG : Top-k incidents\n(group + techniques +\ndescription + score)
 
 RAG --> Gemini : Query + retrieved incidents
 
 Gemini --> Result : Top 3 groups +\nmatch scores + evidence + reasoning
 
-Result --> API : Structured result
+Result --> API : Parsed JSON
 
 API --> Client : JSON response
 
 GitHub --> DB : Knowledge base
+DB --> Index : Incidents loaded\nat startup
 @enduml
 ```
 
-<img width="1073" height="839" alt="image" src="https://github.com/user-attachments/assets/735c9c26-e25a-46f0-ae22-a0f91c59351a" />
-
+<img width="828" height="854" alt="image" src="https://github.com/user-attachments/assets/9e504d26-5c12-48b3-a17e-7f9237a0bf72" />
 
 ---
 
 ### Mermaid UML
 
 ```mermaid
-flowchart LR
-
+flowchart TD
     Client["External System / SIEM"]
 
-    subgraph API_System["Threat Actor Analysis API"]
+    subgraph API_SYS["Threat Actor Analysis API"]
         API["REST API<br/>POST /analyze"]
         Query["Query Processor"]
         RAG["RAG Retriever"]
-        Index["Vector Index"]
+        Index["Jaccard Index"]
         Gemini["Gemini API"]
         Result["Result Generator"]
     end
@@ -98,99 +93,66 @@ flowchart LR
     DB[("Threat Intelligence<br/>Knowledge Base")]
     GitHub["GitHub Repository"]
 
-    Client -->|"MITRE technique IDs<br/>[T1059.001, T1071.001, T1105]"| API
-
-    API -->|"Validate & process<br/>techniques"| Query
-
-    Query -->|"User query"| RAG
-
-    RAG -->|"Retrieve similar<br/>historical incidents"| Index
-
-    Index -->|"Relevant incidents"| RAG
-
-    RAG -->|"Get incident details"| DB
-
-    DB -->|"Group + techniques +<br/>description"| RAG
-
+    Client -->|"MITRE technique IDs<br/>['T1059.001', 'T1071.001', 'T1105']"| API
+    API -->|"Validate & process techniques"| Query
+    Query -->|"Validated technique IDs"| RAG
+    RAG -->|"Rank incidents by Jaccard similarity"| Index
+    Index -->|"Top-k incidents<br/>(group + techniques + description + score)"| RAG
     RAG -->|"Query + retrieved incidents"| Gemini
-
-    Gemini -->|"Top 3 groups +<br/>match scores + evidence + reasoning"| Result
-
-    Result -->|"Structured result"| API
-
+    Gemini -->|"Top 3 groups + match scores<br/>+ evidence + reasoning"| Result
+    Result -->|"Parsed JSON"| API
     API -->|"JSON response"| Client
 
     GitHub -->|"Knowledge base"| DB
-```
+    DB -->|"Incidents loaded at startup"| Index
+```    
 ### PlantUML Sequence diagram
 ```
 @startuml
 actor "External System / SIEM" as Client
-
-participant "REST API\n/analyze" as API
+participant "REST API\nPOST /analyze" as API
 participant "Query Processor" as Query
 participant "RAG Retriever" as RAG
-database "Vector Index" as Index
-database "Threat Intelligence\nKnowledge Base" as DB
+participant "Jaccard Index" as Index
 participant "Gemini API" as Gemini
 participant "Result Generator" as Result
 
-Client -> API : POST /analyze\nMITRE technique IDs
+Client -> API : MITRE technique IDs
 API -> Query : Validate & process techniques
-Query --> API : Validated techniques
-
-API -> RAG : User query
-RAG -> Index : Retrieve similar historical incidents
-Index --> RAG : Relevant incident IDs
-
-RAG -> DB : Get incident details
-DB --> RAG : Group + techniques + description
-
+Query -> RAG : Validated technique IDs
+RAG -> Index : Rank incidents by Jaccard similarity
+Index --> RAG : Top-k incidents (group, techniques, description, score)
 RAG -> Gemini : Query + retrieved incidents
-Gemini -> Gemini : Analyze evidence
-Gemini -> Gemini : Identify top 3 groups
-Gemini -> Gemini : Generate evidence + reasoning
-Gemini --> Result : Analysis result
-
-Result --> API : Structured result
+Gemini --> Result : Top 3 groups + scores + reasoning
+Result --> API : Parsed JSON
 API --> Client : JSON response
-
 @enduml
 ```
-<img width="1406" height="686" alt="image" src="https://github.com/user-attachments/assets/2eb945cb-cd8a-4a2b-815b-e34245f0f723" />
+<img width="1473" height="452" alt="image" src="https://github.com/user-attachments/assets/15a37e9a-3f62-4ab3-b3cf-6d92dfb41840" />
+
 
 ### Mermaid UML
 
 ```mermaid
 sequenceDiagram
     actor Client as External System / SIEM
-    participant API as REST API /analyze
+    participant API as REST API (POST /analyze)
     participant Query as Query Processor
     participant RAG as RAG Retriever
-    participant Index as Vector Index
-    participant DB as Threat Intelligence Knowledge Base
+    participant Index as Jaccard Index
     participant Gemini as Gemini API
     participant Result as Result Generator
 
-    Client->>API: POST /analyze<br/>MITRE technique IDs
+    Client->>API: MITRE technique IDs
     API->>Query: Validate & process techniques
-    Query-->>API: Validated techniques
-
-    API->>RAG: User query
-    RAG->>Index: Retrieve similar historical incidents
-    Index-->>RAG: Relevant incident IDs
-
-    RAG->>DB: Get incident details
-    DB-->>RAG: Group + techniques + description
-
+    Query->>RAG: Validated technique IDs
+    RAG->>Index: Rank incidents by Jaccard similarity
+    Index-->>RAG: Top-k incidents (group, techniques, description, score)
     RAG->>Gemini: Query + retrieved incidents
-    Gemini->>Gemini: Analyze evidence
-    Gemini->>Gemini: Identify top 3 groups
-    Gemini->>Gemini: Generate evidence + reasoning
-    Gemini-->>Result: Analysis result
-
-    Result-->>API: Structured result
+    Gemini-->>Result: Top 3 groups + scores + reasoning
+    Result-->>API: Parsed JSON
     API-->>Client: JSON response
+
 ```
 
 ## Colab prototype
