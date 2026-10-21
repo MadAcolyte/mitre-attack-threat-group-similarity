@@ -3,3 +3,5 @@ logs/
 .ipynb_checkpoints/
 __pycache__/
 model.png
+BankMarketing_RandomForest_trees10/
+*_RandomForest_*/
