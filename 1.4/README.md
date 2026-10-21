@@ -57,11 +57,11 @@ Papildomai: trumpi **lietuviški** paaiškinimai kiekviename žingsnyje (užduot
 
 ## Rezultatai
 
-Vykdyta CPU (be GPU). Epochos sumažintos, kaip nurodyta aukščiau.
+Notebook įvykdytas iki galo CPU (be GPU), išvestys išsaugotos `cnn_tf_flowers.ipynb`. Imtis: 2936 treniravimo ir 734 testo vaizdai (32×32 RGB). Epochos sumažintos, kaip nurodyta aukščiau.
 
 | Modelis | Epochos (orig. → čia) | Testo tikslumas |
 | --- | --- | --- |
-| CNN | 20 → 8 | *užpildoma po notebook vykdymo* |
-| MLP | 15 → 5 | *užpildoma po notebook vykdymo* |
+| CNN | 20 → 8 | **67.17 %** (`0.6717`) |
+| MLP | 15 → 5 | **45.37 %** (`0.4537`) |
 
-Atsitiktinis spėjimas su 5 klasėmis būtų 20 %. CNN turėtų aiškiai lenkti MLP, kaip ir originaliame CIFAR-10 palyginime.
+Atsitiktinis spėjimas su 5 klasėmis būtų 20 %. CNN aiškiai lenkia perceptroną — tas pats kokybinis skirtumas, kurį dėstytojo Colab rodė su CIFAR-10 (~70 % vs ~40 %). 2 dalyje rankinė `numpy` konvoliucija (filtras + bias + ReLU) sutapo su Keras pirmojo sluoksnio požymių žemėlapiu.
