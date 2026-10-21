@@ -1,8 +1,13 @@
-# 1.3 Bank Marketing — TensorFlow neuroninis tinklas
+# 1.3 Bank Marketing — TensorFlow NN ir Decision Forests
 
-VILNIUS TECH kurso *Gilusis mokymas* užduotis 1.3: suprasti dėstytojo Colab užrašus ir perdaryti juos su kitais verslo duomenimis.
+VILNIUS TECH kurso *Gilusis mokymas* užduotis 1.3: suprasti dėstytojo Colab užrašus ir perdaryti **abu** su kitais verslo duomenimis.
 
-## Kas replikuota
+| Užrašas | Failas | Originalas |
+| --- | --- | --- |
+| Neuroninis tinklas | [`BankMarketing_NN.ipynb`](BankMarketing_NN.ipynb) | [AdventureWorks DW using TensorFlow Neural Network](https://colab.research.google.com/drive/1LLFM2Ba5jAZSna8JnS44frwSLW9mx5As) |
+| Atsitiktinis miškas | [`BankMarketing_DF.ipynb`](BankMarketing_DF.ipynb) | [AdventureWorks DW using TensorFlow Decision Forests](https://colab.research.google.com/drive/1zE7b6UlSOreWsgD7lGQOVfEki_xTRDAX) |
+
+## Kas replikuota (neuroninis tinklas)
 
 Dėstytojo užrašai **AdventureWorks DW using TensorFlow Neural Network** (`AdventureWorksDW_NN.ipynb`, Algirdas Laukaitis).
 
@@ -59,12 +64,42 @@ Vieno pavyzdinio kliento (35 m., `admin.`, universitetinis išsilavinimas, `cell
 
 Užrašai su išsaugotais išėjimais: [`BankMarketing_NN.ipynb`](BankMarketing_NN.ipynb).
 
+## Kas replikuota (Decision Forests)
+
+Dėstytojo užrašai **AdventureWorks DW using TensorFlow Decision Forests** (`AdventureWorksDW_Decision Forests.ipynb`, Algirdas Laukaitis).
+
+- Colab: <https://colab.research.google.com/drive/1zE7b6UlSOreWsgD7lGQOVfEki_xTRDAX>
+
+Langeliai 1.1–5 ta pačia tvarka: CSV → eilutės peržiūra → `duration` išmetimas ir `y` → `target` → **90:10** mokymas/testas **be validacijos** (OOB atstoja validaciją) → `tfdf.keras.pd_dataframe_to_tf_dataset` → `RandomForestModel(num_trees=10, max_depth=15)` → `fit` / `evaluate` (accuracy + AUC) → OOB kreivės (accuracy ir logloss pagal medžių skaičių) → vieno medžio piešinys (`tfdf.model_plotter`) → SavedModel ir prognozė tam pačiam pavyzdiniam klientui.
+
+**TF-DF versijos.** Užrašai diegia `tensorflow_decision_forests` (čia 1.12.0 su TensorFlow 2.19.0). TF 2.19 deklaruoja `protobuf<6`, o TF-DF 1.12 / `ydf` 0.16 sugeneruotas su Protobuf 6.31.1; jei importas krenta, užrašai pin'ina `protobuf==6.31.1`.
+
+Užrašai su išsaugotais išėjimais: [`BankMarketing_DF.ipynb`](BankMarketing_DF.ipynb).
+
+## NN ir Random Forest palyginimas
+
+Abu modeliai naudoja tą patį UCI Bank Marketing rinkinį be `duration` ir **tą patį 10 % testą** (`random_state=42`; NN validacija paimta iš RF mokymo 90 %). RF mokomas iš visų 90 %, NN — iš 80 % + 10 % validacija. RF `num_trees=10` (kaip originale), NN — 30 epochų `Dense(64)–Dense(32)–Dense(1)`.
+
+| | NN | Random Forest |
+| --- | --- | --- |
+| Tikslumas (slenkstis 0,5) | **0.8424** | **0.8932** (Keras `evaluate`: 0.8956) |
+| AUC | **0.7848** | **0.759** |
+| Požymių paruošimas | `StringLookup` + `CategoryEncoding`, `Normalization` | TF-DF pats atpažįsta tipus |
+| Validacija | atskira 10 % aibė | out-of-bag |
+| Klasės disbalansas | `class_weight` | be svorių (originalo eiga) |
+| Pavyzdinio kliento `P(yes)` | 21,2 % | 0 % (`winner_take_all` balsas) |
+
+RF laimi pagal **tikslumą**, nes be klasės svorių jis dažniau spėja daugumą (`no`; bazė ~88,7 %). NN su `class_weight` geriau **ranguoja** retą `yes` klasę (aukštesnis AUC). Originalo RF naudoja `winner_take_all_inference=True`, todėl `predict` yra klasės balsas (0 arba 1), ne kalibruota tikimybė — todėl pavyzdinis klientas gauna 0 %.
+
+DF OOB tikslumas po 10 medžių: ~0.895.
+
 ## Kaip paleisti
 
-Python 3 su `tensorflow`, `pandas`, `scikit-learn`. Iš šio katalogo:
+Python 3 su `tensorflow`, `pandas`, `scikit-learn`; miškui dar `tensorflow_decision_forests` (ir prireikus `protobuf==6.31.1`). Iš šio katalogo:
 
 ```bash
 jupyter notebook BankMarketing_NN.ipynb
+jupyter notebook BankMarketing_DF.ipynb
 ```
 
-arba Colab: atidaryti `BankMarketing_NN.ipynb` ir *Runtime → Run all*. Vietinis CSV nereikalauja Kaggle paskyros.
+arba Colab: atidaryti užrašą ir *Runtime → Run all*. Vietinis CSV nereikalauja Kaggle paskyros.
