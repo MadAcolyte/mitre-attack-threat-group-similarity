@@ -47,12 +47,15 @@ Papildomai paliekami Bank Marketing kategoriniai požymiai `default`, `loan`, `d
 
 ## Rezultatai
 
-Klasės disbalansas: apie **11,3 %** teigiamų (`yes`). Mokant naudotas `class_weight`; šalia Keras `accuracy` skaičiuojamas AUC.
+Klasės disbalansas: **11,3 %** teigiamų (`yes`) visame rinkinyje (teste 11,8 %). Mokant naudotas `class_weight`. Grynas Keras `BinaryAccuracy` čia matuoja slenkstį ant logitų, todėl ataskaitoje naudojame tikimybę po `sigmoid`.
 
-| Metrika | Testo aibė (10 %) |
+| Metrika | Testo aibė (10 %, 4119 eilutės) |
 | --- | --- |
-| Tikslumas (sigmoidė, slenkstis 0,5) | *bus įrašyta po užrašų vykdymo* |
-| AUC | *bus įrašyta po užrašų vykdymo* |
+| Tikslumas (sigmoidė, slenkstis 0,5) | **0.8424** (84,2 %) |
+| AUC | **0.7848** |
+| Keras `evaluate` accuracy / AUC | 0.8691 / 0.7848 |
+
+Vieno pavyzdinio kliento (35 m., `admin.`, universitetinis išsilavinimas, `cellular`, be ankstesnių kampanijų) indėlio tikimybė: **21,2 %**.
 
 Užrašai su išsaugotais išėjimais: [`BankMarketing_NN.ipynb`](BankMarketing_NN.ipynb).
 
