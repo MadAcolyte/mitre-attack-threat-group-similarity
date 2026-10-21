@@ -1,0 +1,5 @@
+*.keras
+logs/
+.ipynb_checkpoints/
+__pycache__/
+model.png
