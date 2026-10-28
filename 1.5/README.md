@@ -1,12 +1,13 @@
-# Scenų klasifikacija — TensorFlow ir transfer learning
+# Intel vaizdų analizė — transfer learning, klasifikacija, objektų aptikimas ir segmentavimas
 
-VILNIUS TECH kurso *Gilusis mokymas* darbas: suprasti pateiktą transfer learning notebooką ir pritaikyti jį **kitam vaizdų duomenų rinkiniui**. Šioje versijoje CIFAR-10 pakeistas **Intel Image Classification** rinkiniu.
+VILNIUS TECH kurso *Gilusis mokymas* darbas: suprasti pateiktus notebookus ir pritaikyti juos **kitiems vaizdų duomenims**. Abu užrašai naudoja **Intel Image Classification** rinkinį: pirmame mokomas scenų klasifikatorius, antrame viena nuotrauka analizuojama iš anksto išmokytais modeliais. Notebookų tekstai yra anglų kalba, README — lietuvių.
 
 | **Užrašas** | **Failas** | **Originalas** |
 | --- | --- | --- |
 | EfficientNetV2B1 + klasifikatorius + augmentacija | [`cnn_Transfer_learning_Intel.ipynb`](cnn_Transfer_learning_Intel.ipynb) | `cnn_Transfer_learning.ipynb` |
+| Vieno vaizdo klasifikacija + objektų aptikimas + segmentavimas | [`cnn_One_Image_Intel.ipynb`](cnn_One_Image_Intel.ipynb) | `cnn_One_Image.ipynb` |
 
-## Kas replikuota
+## Transfer learning: kas replikuota
 
 Pradinis užrašas — `cnn_Transfer_learning.ipynb`, naudojantis **CIFAR-10**: 32 × 32 RGB vaizdus ir 10 klasių. Originale duomenys įkeliami per Hugging Face `load_dataset("uoft-cs/cifar10")`, o Keras atsisiuntimo variantas paliktas užkomentuotas.
 
@@ -22,7 +23,7 @@ Tai adaptacija, o ne identiška originalo kopija. Pakeistas duomenų įkėlimas,
 
 ## Duomenų rinkinys ir šaltinis
 
-Naudojamas **Intel Image Classification** — gamtos ir miesto scenų RGB nuotraukos. Vaizdai prieš perduodant modeliui sumažinami arba padidinami iki **240 × 240**.
+Naudojamas **Intel Image Classification** — gamtos ir miesto scenų RGB nuotraukos. Transfer learning notebooke vaizdai keičiami į **240 × 240**. Vieno vaizdo notebooke pasirenkama viena `seg_test` nuotrauka; klasifikatoriams ji paruošiama kaip **384 × 384** vaizdas su proporcijas išlaikančiu užpildymu.
 
 | | **Aprašymas** |
 | --- | --- |
@@ -35,7 +36,7 @@ Naudojamas **Intel Image Classification** — gamtos ir miesto scenų RGB nuotra
 | Papildomas aplankas | `seg_pred`: vaizdai be etikečių, nenaudojami tikslumui skaičiuoti |
 | Atsisiuntimas | `kagglehub.dataset_download("puneet6060/intel-image-classification")` arba vietinis išpakuotas rinkinys |
 
-Duomenys skaitomi partijomis per `tf.data`, nekeliant visų paruoštų vaizdų į RAM. Pikselių reikšmės paliekamos **0–255** intervale, nes pasirinkto EfficientNetV2 modelio normalizavimas yra integruotas. Papildomas dalijimas iš 255 neatliekamas.
+Transfer learning notebooke duomenys skaitomi partijomis per `tf.data`, nekeliant visų paruoštų vaizdų į RAM. Pikselių reikšmės paliekamos **0–255** intervale, nes pasirinkto EfficientNetV2 modelio normalizavimas yra integruotas. Papildomas dalijimas iš 255 neatliekamas.
 
 ## CIFAR-10 → Intel Image Classification atitikimas
 
@@ -71,7 +72,7 @@ Architektūra: **240 × 240 × 3 → EfficientNetV2B1 → global average pooling
 
 Augmentacija: horizontalus atspindėjimas, nedidelis pasukimas (`0.05`), poslinkis (`0.1` abiem kryptimis), mastelio keitimas (`0.1`) ir šviesumo keitimas (`0.1`, pikselių intervalas 0–255). Ji įjungta tik mokymo metu. Vertikalūs atspindžiai nenaudojami.
 
-## Rezultatai
+## Transfer learning rezultatai
 
 Toliau pateikti rezultatai paimti iš pateiktos **10 epochų vykdymo išvesties**. Jie nėra naujo README rengimo metu atlikto mokymo rezultatai. Vykdymo įrenginys ir bibliotekų versijos pateiktoje išvestyje nenurodyti.
 
@@ -110,7 +111,76 @@ Pateikta ataskaita atitinka bazinį modelį; metrikos suapvalintos kaip vykdymo 
 
 Geriausiai atpažįstami miško vaizdai. Mažesnės F1 reikšmės gautos ledynų ir kalnų klasėms. Norint nustatyti, kurias klases modelis painioja tarpusavyje, reikia peržiūrėti notebooko sugeneruotą klaidų matricą.
 
+## Vieno vaizdo analizė — `cnn_One_Image_Intel.ipynb`
+
+Antras užrašas pritaikytas iš `cnn_One_Image.ipynb`. Išlaikyti originalūs modeliai ir trys dalys: **klasifikacija → objektų aptikimas → segmentavimas**. Vietoj originale pateiktų internetinių nuotraukų pasirenkamas vaizdas iš Intel rinkinio. Modeliai šiame notebooke papildomai nemokomi.
+
+### Kas pakeista ir kas išlaikyta
+
+| **Dalis** | **Ši versija** |
+| --- | --- |
+| Duomenys | Viena pasirinktos klasės nuotrauka iš `seg_test`; numatyta `street`, `image_index = 0` |
+| Nuotraukos pasirinkimas | `image_name`, `image_index`, pasirinktinai `LOCAL_DATA_DIR` arba `LOCAL_IMAGE_PATH` |
+| Klasifikacijos modelis 1 | Originalus TensorFlow Hub EfficientNetV2-S, išmokytas su ImageNet-21k |
+| Klasifikacijos modelis 2 | Originalus TensorFlow Hub EfficientNetV2-S, ImageNet-21k → ImageNet-1k |
+| Objektų aptikimas | Originalus SSD MobileNetV2, išmokytas su Open Images V4 |
+| Segmentavimas | Originalus HRNetV2-W48, išmokytas su ADE20K |
+| Vaizdų paruošimas | RGB, `float32`, pikseliai **0–1**; klasifikacijai 384 × 384 su užpildymu |
+| Iškarpa | Viršutinis kairysis kampas nurodomas procentais; dydis — trumpesnės vaizdo kraštinės procentais |
+| Numatyta iškarpa | `x = 20`, `y = 20`, `crop_size_percent = 60` |
+| Rezultatų pateikimas | Abiejų klasifikatorių top-4, objektų rėmeliai, segmentavimo atsako žemėlapiai ir keturios perdangos |
+
+Šio notebooko **0–1** normalizavimas skirtas originaliems TensorFlow Hub modeliams. Jis skiriasi nuo transfer learning notebooko Keras EfficientNetV2 įvesties **0–255** intervale.
+
+Intel aplankų pavadinimai aprašo vaizdų šaltinį, tačiau nekeičia modelių išėjimų: klasifikatoriai naudoja ImageNet klases, detektorius — Open Images, segmentavimo modelis — ADE20K. Todėl, pavyzdžiui, šis notebookas neapriboja klasifikacijos iki šešių Intel scenų klasių.
+
+### Klasifikacijos rezultatai
+
+Pateiktame gatvės vaizdo pavyzdyje gautos šios prognozės. Lentelėse palikti modelių klasių ID ir originalūs angliški pavadinimai.
+
+**Modelis 1 — ImageNet-21k**
+
+| **Vieta** | **Klasės ID** | **Klasė** | **Softmax reikšmė `p`** |
+| --- | --- | --- | --- |
+| 1 | 10880 | `street` | 0.1005 (10,05 %) |
+| 2 | 5125 | `building, edifice` | 0.0886 (8,86 %) |
+| 3 | 11410 | `tramline, tramway, streetcar_track` | 0.0590 (5,90 %) |
+| 4 | 10879 | `street` | 0.0301 (3,01 %) |
+
+**Modelis 2 — ImageNet-1k**
+
+| **Vieta** | **Klasės ID** | **Klasė** | **Softmax reikšmė `p`** |
+| --- | --- | --- | --- |
+| 1 | 743 | `prison` | 0.0892 (8,92 %) |
+| 2 | 860 | `tobacco shop` | 0.0517 (5,17 %) |
+| 3 | 698 | `palace` | 0.0407 (4,07 %) |
+| 4 | 675 | `moving van` | 0.0300 (3,00 %) |
+
+ImageNet-21k modelio pirmos prognozės semantiškai dera su gatvės ir pastatų vaizdu. ImageNet-1k modelis siūlo konkretesnes objektų ar pastatų kategorijas; vien iš šių prognozių negalima patvirtinti, kad nuotraukoje yra kalėjimas ar tabako parduotuvė. Didžiausios abiejų modelių reikšmės nedidelės, todėl prognozės nėra aiškiai sutelktos į vieną klasę.
+
+`p` yra konkretaus modelio softmax išėjimas, **ne viso rinkinio tikslumas**. Kadangi modeliai naudoja skirtingus klasių rinkinius, jų `p` reikšmės nėra tiesioginis tarpusavio kokybės matas. Du `street` įrašai turi skirtingus ID ir pateiktoje išvestyje išlaikomi atskirai.
+
+### Objektų aptikimas
+
+SSD MobileNetV2 taikomas visai pradinei nuotraukai ir jos iškarpai. Notebookas pateikia objektų pavadinimus, įverčius ir rėmelius; numatytas slenkstis `min_score = 0.25`, rodoma iki 20 aptikimų. Pateiktoje rezultatų medžiagoje nėra detektoriaus išvesties, todėl aptiktų objektų skaičius ir jų rezultatai čia nenurodomi.
+
+### Segmentavimo rezultatai
+
+HRNet modelis analizuojamai iškarpai pateikia atskirų klasių atsako žemėlapius. Pateiktame tinklelyje matomas **151 kanalas**: fonas ir 150 ADE20K klasių.
+
+![HRNet klasių atsako žemėlapiai](assets/one_image_hrnet_response_maps.png)
+
+Keturių pasirinktų kanalų perdangos: `2: building`, `5: tree`, `13: person`, `18: plant`.
+
+![Pastato, medžio, žmogaus ir augalo kanalų perdangos](assets/one_image_hrnet_overlays.png)
+
+`building` kanalo ryškesnis atsakas apima didelę matomų fasadų dalį. Kitų trijų pasirinktų kanalų atsakai labiau lokalūs. Tai klasės atsako vizualizacijos, o ne anotacijomis patvirtintos objektų vietos ar galutinė kiekvienam pikseliui priskirtų klasių kaukė. Vien ryškumo skirtinguose grafikuose negalima laikyti tiesioginiu klasių tikimybių palyginimu, nes kiekvienas žemėlapis atvaizduojamas su automatiniu spalvų masteliu.
+
+Intel rinkinyje nėra objektų rėmelių ar segmentavimo kaukių anotacijų. Dėl to šiame pavyzdyje neatliekamas kiekybinis aptikimo ar segmentavimo vertinimas, pvz., mAP ar IoU skaičiavimas.
+
 ## Kaip paleisti
+
+### Transfer learning notebookas
 
 Atidaryti [`cnn_Transfer_learning_Intel.ipynb`](cnn_Transfer_learning_Intel.ipynb) Google Colab, pasirinkti GPU aplinką ir vykdyti *Runtime → Run all*. Notebooko aprašai, kodas ir grafikų užrašai yra anglų kalba.
 
@@ -136,9 +206,32 @@ EPOCHS = 10
 
 Pritrūkus GPU atminties, `BATCH_SIZE` sumažinti iki 16 arba 8. Tikslūs rezultatai gali skirtis priklausomai nuo vykdymo aplinkos ir bibliotekų versijų.
 
+### Vieno vaizdo notebookas
+
+Atidaryti [`cnn_One_Image_Intel.ipynb`](cnn_One_Image_Intel.ipynb) Colab ir vykdyti langelius iš eilės. Pirmas vykdomasis langelis įdiegia `tensorflow`, `tensorflow-hub`, `tf-keras`, `kagglehub`, `requests`, `pillow` ir `matplotlib`. Internetas reikalingas duomenims, modeliams ir klasių etiketėms atsisiųsti.
+
+Vietiniam paleidimui:
+
+```bash
+jupyter notebook cnn_One_Image_Intel.ipynb
+```
+
+Nuotraukos pasirinkimo langelyje:
+
+```python
+image_name = 'street'  # buildings, forest, glacier, mountain, sea, street
+image_index = 0
+LOCAL_DATA_DIR = None
+LOCAL_IMAGE_PATH = None
+```
+
+Galima nurodyti jau išpakuoto rinkinio kelią per `LOCAL_DATA_DIR`. Norint naudoti savo nuotrauką, nurodyti `LOCAL_IMAGE_PATH`; tuomet Intel rinkinio atsisiuntimas praleidžiamas. Jei Kaggle prašo prisijungti, naudoti `kagglehub.login()` arba vietinę duomenų kopiją.
+
+Pakeitus nuotrauką, pakartotinai vykdyti jos įkėlimo, iškarpos ir tolesnius analizės langelius. Mokymo ir epochų nustatymų šiame notebooke nėra. Jis nepriklauso nuo pirmo notebooko išsaugotų `.keras` modelių.
+
 ## Išsaugomi failai
 
-Notebookas po vykdymo sukuria katalogą `intel_results`:
+Transfer learning notebookas po vykdymo sukuria katalogą `intel_results`:
 
 | **Failas** | **Paskirtis** |
 | --- | --- |
@@ -153,9 +246,14 @@ Notebookas po vykdymo sukuria katalogą `intel_results`:
 
 Naudojant Colab, reikiamus modelius ir rezultatų failus reikia atsisiųsti prieš baigiant sesiją. Paskutinis vykdomasis notebooko langelis leidžia patikrinti išsaugotą modelį su savo nuotrauka, nurodžius `MY_IMAGE_PATH`.
 
+Vieno vaizdo notebookas rezultatus rodo langelių išvestyse; atskirų rezultatų failų automatiškai nekuria. Šio README iliustracijos saugomos kataloge `assets/`, kurį reikia laikyti kartu su README.
+
 ## Šaltiniai
 
-- Originalus pateiktas užrašas: `cnn_Transfer_learning.ipynb`.
+- Originalūs pateikti užrašai: `cnn_Transfer_learning.ipynb` ir `cnn_One_Image.ipynb`.
+- Vieno vaizdo klasifikacijos skaičiai ir HRNet iliustracijos — pateiktos vykdymo išvestys.
 - [Intel Image Classification — Kaggle](https://www.kaggle.com/datasets/puneet6060/intel-image-classification).
 - [Keras EfficientNetV2 dokumentacija](https://keras.io/api/applications/efficientnet_v2/).
 - [Kagglehub: duomenų atsisiuntimas](https://github.com/Kaggle/kagglehub).
+- [TensorFlow Hub objektų aptikimo pavyzdys](https://www.tensorflow.org/hub/tutorials/object_detection).
+- [TensorFlow Hub HRNet segmentavimo pavyzdys](https://www.tensorflow.org/hub/tutorials/hrnet_semantic_segmentation).
