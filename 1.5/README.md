@@ -168,11 +168,13 @@ SSD MobileNetV2 taikomas visai pradinei nuotraukai ir jos iškarpai. Notebookas 
 
 HRNet modelis analizuojamai iškarpai pateikia atskirų klasių atsako žemėlapius. Pateiktame tinklelyje matomas **151 kanalas**: fonas ir 150 ADE20K klasių.
 
-![HRNet klasių atsako žemėlapiai](assets/one_image_hrnet_response_maps.png)
+<img width="2174" height="2008" alt="image" src="https://github.com/user-attachments/assets/56769509-9295-4e48-90f4-092f58896991" />
+
 
 Keturių pasirinktų kanalų perdangos: `2: building`, `5: tree`, `13: person`, `18: plant`.
 
-![Pastato, medžio, žmogaus ir augalo kanalų perdangos](assets/one_image_hrnet_overlays.png)
+<img width="1169" height="1190" alt="image" src="https://github.com/user-attachments/assets/514d3cda-f48b-46b4-85d5-b287f9d14229" />
+
 
 `building` kanalo ryškesnis atsakas apima didelę matomų fasadų dalį. Kitų trijų pasirinktų kanalų atsakai labiau lokalūs. Tai klasės atsako vizualizacijos, o ne anotacijomis patvirtintos objektų vietos ar galutinė kiekvienam pikseliui priskirtų klasių kaukė. Vien ryškumo skirtinguose grafikuose negalima laikyti tiesioginiu klasių tikimybių palyginimu, nes kiekvienas žemėlapis atvaizduojamas su automatiniu spalvų masteliu.
 
